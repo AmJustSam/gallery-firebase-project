@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useUpload from "../../hooks/useUpload";
 
 const Progress = styled.div`
@@ -12,14 +12,14 @@ const Progress = styled.div`
 `; 
 
 function ProgressBar({file, setFile, setUploader}) {
-   const {progress, url} = useUpload(file);
+   const {progress, filename} = useUpload(file);
 
    useEffect(() => {
-     if(url) {
+     if(filename) {
        setFile(null);
        setUploader(true);
      }
-   }, [url, setFile]);
+   }, [filename, setFile]);
    
    return (
     <Progress style={{width: progress + "%"}} role="progressbar" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100">{progress || 0 + "%"}</Progress>

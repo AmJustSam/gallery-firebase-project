@@ -13,8 +13,22 @@ export const Overlay = styled(motion.div)`
     bottom: 0;
     width: 100%;
     height: 100%:
-    overflow: scroll;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
     cursor: zoom-out;
+
+    button {
+      align-self: flex-end;
+      margin: 20px 20px 0 0;
+      background: 0;
+      border: 0;
+      color: white;
+      cursor: pointer;
+      
+      > * {
+        pointer-events: none;
+      }
+    }
 `;
 
 export const Container = styled(motion.div)`
@@ -30,25 +44,11 @@ export const Container = styled(motion.div)`
     align-items: center;
     cursor: default;
     border-radius: 5px;
-
-    button {
-      align-self: flex-end;
-      margin: 20px 20px 0 0;
-      background: 0;
-      border: 0;
-      color: white;
-      cursor: pointer;
-      
-      > * {
-        pointer-events: none;
-      }
-    }
 `; 
 
 export const Img = styled.div`
     position: relative;
     width: 100%;
-    margin: 10px 0;
     overflow: hidden;
 
     img {
@@ -56,9 +56,5 @@ export const Img = styled.div`
       width: 100%;
       height: 100%;
       left: 0;
-    }
-
-    .blur {
-      filter: blur(20px);
     }
 `;

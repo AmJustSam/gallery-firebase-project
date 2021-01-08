@@ -1,7 +1,14 @@
+const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 module.exports = {
-  devtool: "cheap-module-source-map",
+  devtool: "none",
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+  },
   module: {
     rules: [
        {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
@@ -16,7 +23,7 @@ module.exports = {
 
   plugins: [
      new HtmlWebpackPlugin({
-       template: "./public/index.html"
-     })
+       template: "./public/index.html",
+     }),
   ]
 }

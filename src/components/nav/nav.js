@@ -1,11 +1,12 @@
-import React, {useContext} from "react";
+import React from "react";
 import {signOut} from "../../utils/firebase";
-import {LoginContext} from "../../authentication/authContext";
+import {useSelector} from "react-redux";
 
 import {Container, Header, Navigation} from "./navStyles";
 
+
 function Nav(){
-  const user = useContext(LoginContext);
+  const user = useSelector((state) => state.loggedIn);
 
   return(
     <Container>

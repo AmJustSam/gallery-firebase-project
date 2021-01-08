@@ -1,9 +1,10 @@
-import React, {useContext} from "react";
+import React from "react";
 import {Route, Redirect} from "react-router-dom";
-import {LoginContext} from "../authentication/authContext";
+
+import {useSelector} from "react-redux";
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-  const user = useContext(LoginContext);
+  const user = useSelector((state) => state.loggedIn);
   
   return(
     <Route  {...rest}

@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import {storage, firestore} from "../utils/firebase";
-import firebase from "../utils/firebase";
-import {LoginContext} from "../authentication/authContext";
+import { useEffect, useState } from "react";
+import {storage} from "../utils/firebase";
+
+import {useSelector, useDispatch} from "react-redux";
+import {addImage} from "../actions/galleryActions";
 
 const useUpload = (file) => {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
-  const [url, setUrl] = useState(null);
-
-  const user = useContext(LoginContext);
+  const [filename, setFilename] = useState(null);
+   
+  const user = useSelector((state) => state.loggedIn);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const date = new Date();
@@ -24,16 +26,18 @@ const useUpload = (file) => {
       }, (err) => {
         setError(err);
       }, async () => {
-        const url = await storageRef.getDownloadURL();
-        firestore.collection("gallery").doc(user.uid).collection("images").add({url: url, uid: user.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
-        setUrl(url);
+        const filename = storageRef.fullPath;
+        
+        dispatch(addImage({filename: filename}));
+
+        setFilename(filename);
       })
     } else {
       setError("Please select file");
     }
   }, [file]);
 
-  return {progress, error, url};
+  return {progress, error, filename};
 }
 
 export default useUpload;
