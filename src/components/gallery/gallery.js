@@ -8,7 +8,6 @@ import {useSelector, useDispatch} from "react-redux";
 import {getImages, removeImage, loadMore} from "../../actions/galleryActions";
 
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 
 function Gallery(){
   const images = useSelector((state) => state.gallery?.length > 0 ? state.gallery : false );
@@ -58,7 +57,7 @@ function Gallery(){
            {
              images.map((image) => (
                <Wrapper id="wrapper" key={image.id} >
-                  <Link style={{display: "block"}} id={image.id} to={{pathname: `/img/${image.id}`, state: {background: location, imgFilename: image.filename}}}>
+                  <Link style={{display: "block"}} id={image.id} to={{pathname: `/img/${image.id}`, state: {background: location, imgFilename: image.filename, imgId: image.id}}}>
                     <Image layout variants={imgVariant}>
                       <img className="lazyload" id={image.id} data-sizes="auto" data-src={genUrl(image.filename)} data-srcset={genLowSrcset(image.filename)} src={genLowUrl(image.filename)} />
                     </Image>

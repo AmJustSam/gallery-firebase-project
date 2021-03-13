@@ -14,12 +14,8 @@ function Nav(){
          <h1>Piczer</h1>   
          <Navigation>
            <ul>
-             {user ?
-              <li style={{cursor: "pointer"}} onClick={() => signOut()}>Logout</li> :
-              <React.Fragment>
-                <li><a tabindex="0">Login</a></li>
-                <li><button>Signup</button></li>
-              </React.Fragment>
+             {user &&
+              <li style={{cursor: "pointer"}} onClick={() => signOut()}><button style={{cursor: "pointer"}}>Logout</button></li>
              }         
            </ul>
          </Navigation>

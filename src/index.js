@@ -7,6 +7,7 @@ import "lazysizes";
 
 import "./Normalize.scss";
 import "./Main.scss";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import {Provider} from "react-redux";
 import {PersistGate} from "redux-persist/lib/integration/react";

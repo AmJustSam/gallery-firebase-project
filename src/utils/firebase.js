@@ -23,6 +23,8 @@ var firebaseConfig = {
 
   export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 
+  functions.useEmulator("localhost", 5001);
+
   export const signUp = (email, password) => {
     return auth.createUserWithEmailAndPassword(email, password);
   }

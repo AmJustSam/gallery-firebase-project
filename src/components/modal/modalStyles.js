@@ -17,7 +17,7 @@ export const Overlay = styled(motion.div)`
     -webkit-overflow-scrolling: touch;
     cursor: zoom-out;
 
-    button {
+   > button {
       align-self: flex-end;
       margin: 20px 20px 0 0;
       background: 0;
@@ -45,6 +45,44 @@ export const Container = styled(motion.div)`
     cursor: default;
     border-radius: 5px;
 `; 
+
+export const Options = styled.div`
+  display: flex;
+  width: 100%;
+  min-height: 32px;
+  max-height: 32px;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 15px;
+
+
+  > a {
+    color: white;
+    background: #7B4162;
+    padding: 6px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 5px;
+    cursor: pointer;
+
+    &:hover, &:active {
+      color: white;
+    }
+  }
+  
+  > button {
+    background: none;
+    border: 0;
+    color: white;
+    padding: 10px 10px;
+    cursor: pointer;
+
+    > * {
+      pointer-events: none;
+    }
+  }
+
+`;
 
 export const Img = styled.div`
     position: relative;

@@ -27,7 +27,7 @@ function Header(){
       <Heading>Explore and Share your imaginations</Heading>
       <Upload>
           <label>
-             <input disabled={uploader ? false : true} onChange={handleUpload} type="file"/>
+             <input aria-label="Upload image" disabled={uploader ? false : true} onChange={handleUpload} type="file"/>
              <div id="uploader" className={"uploader " + (uploader ? null : "disable")}>
                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46">
                   <g id="Group_1" data-name="Group 1" transform="translate(-359 -237)">

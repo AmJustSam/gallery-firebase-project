@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {signUp, googleSignup} from "../utils/firebase";
 import { FcGoogle } from "react-icons/fc";
 
+import {Helmet} from "react-helmet";
 
 import handleAuthErrors from "../utils/handleAuthErrors";
 
@@ -14,6 +15,7 @@ const Container = styled.div`
    flex-direction: column;
    width: 100%;
    height: 100vh;
+   margin-top: -40px;
 
    div {
     width: 100%;
@@ -76,9 +78,9 @@ function Signup(){
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const {email, password} = e.target.elements;
+    const {email, pass} = e.target.elements;
     
-    signUp(email.value, password.value)
+    signUp(email.value, pass.value)
       .then((user) => {
       }).catch((err) => {
         const errorMsg = handleAuthErrors(err);
@@ -87,29 +89,34 @@ function Signup(){
   }
 
   return(
-    <Container>
-      <div>
-        <h1 className="authPageLogo"><Link to="/">Piczer</Link></h1>   
-        {error && <p className="auth-msg">{error}</p>}
-        <h1>Create account</h1>
-        <div className="form-separator-large"></div>
-        <Button onClick={handleOAuth}><FcGoogle style={{verticalAlign: "middle", fontSize: "25px", marginRight: "10px"}} />Signup with Google</Button>
-        <div className="form-separator"><p>Or</p></div>
-        <Form onSubmit={handleSubmit}>
-         <label>
-            Email
-            <input name="email" type="email" placeholder="Type your email" required/>
-          </label>
+    <React.Fragment>
+      <Helmet>
+         <title>Signup for Piczer account</title>
+      </Helmet>
+      <h1 className="authPageLogo"><Link to="/">Piczer</Link></h1>   
+      <Container>
+        <div>
+          {error && <p className="auth-msg">{error}</p>}
+          <h1>Create account</h1>
+          <div className="form-separator-large"></div>
+          <Button onClick={handleOAuth}><FcGoogle style={{verticalAlign: "middle", fontSize: "25px", marginRight: "10px"}} />Signup with Google</Button>
+          <div className="form-separator"><p>Or</p></div>
+          <Form onSubmit={handleSubmit}>
           <label>
-            Password
-            <input name="pass" type="password" placeholder="Type your password" required/>
-          </label>
-          <Button color="white" bg="#7B4162" hv="#552340">Signup</Button>
-          <div className="form-separator"></div>
-          <p className="center">Already have an account? <Link to="/login">Login!</Link></p>
-        </Form>
-      </div>
-    </Container>
+              Email
+              <input name="email" type="email" placeholder="Type your email" required/>
+            </label>
+            <label>
+              Password
+              <input name="pass" type="password" placeholder="Type your password" required/>
+            </label>
+            <Button color="white" bg="#7B4162" hv="#552340">Signup</Button>
+            <div className="form-separator"></div>
+            <p className="center">Already have an account? <Link to="/login">Login!</Link></p>
+          </Form>
+        </div>
+      </Container>
+    </React.Fragment>
   )
 }
 

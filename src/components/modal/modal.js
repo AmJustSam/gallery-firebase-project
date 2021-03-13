@@ -1,23 +1,27 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory, useParams, Link} from "react-router-dom";
 
-import {Container, Img, Overlay} from "./modalStyles";
-import {genSrcset, genUrl, genLowUrl} from "../../utils/srcGenerator";
+import {Container, Img, Overlay, Options} from "./modalStyles";
+import {genSrcset, genUrl, genLowUrl, genDownloadUrl} from "../../utils/srcGenerator";
 
 import {firestore} from "../../utils/firebase";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import {removeImage} from "../../actions/galleryActions";
 
 import {disableBodyScroll, clearAllBodyScrollLocks} from "body-scroll-lock";
+import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
 
 function Modal(){
   const user = useSelector((state) => state.loggedIn);
+  const dispatch = useDispatch();
   const [img, setImg] = useState(null);
   const [dimension, setDimension] = useState({});
+  const [confirm, setConfirm] = useState(false);
   
   const poll = useRef();
   const imgRef = useRef();
   const history = useHistory();
-  const {imgFilename} = history.location.state;
+  const {imgFilename, imgId} = history.location.state || {imgFilename: "", imgId: ""};
   const {name} = useParams();
 
   const overlayRef = useRef();
@@ -47,11 +51,15 @@ function Modal(){
 
   const getImage = async () => {
     if (imgFilename) {
-      setImg({filename: imgFilename});
+      setImg({filename: imgFilename, id: imgId});
     } else {
-      const doc = await firestore.collection("gallery").doc(user.uid).collection("images").doc(name).get();
-      const data = doc.data();
-      setImg(data);  
+      try {
+        const doc = await firestore.collection("gallery").doc(user.uid).collection("images").doc(name).get();
+        const data = {id: doc.id, ...doc.data()};
+        setImg(data);  
+      } catch (err) {
+        history.push("/");
+      }
     }
   }
 
@@ -65,6 +73,30 @@ function Modal(){
     if(e.key == "Escape") {
       history.goBack();
     }
+  }
+
+  const confirmDelete = (value) => {
+    
+    // if(e.target.classList.contains("delete-item")) {
+    //   const userId = e.target.id;
+    //   confirmAlert({
+    //     title: 'Delete Image?',
+    //     message: "This image will be permanently deleted.",
+    //     buttons: [
+    //       {
+    //         label: 'Yes, Delete it!',
+    //         onClick: () => { 
+    //           dispatch(removeImage({id: userId}));
+    //           history.replace("/");
+    //         }
+    //       },
+    //       {
+    //         label: 'No',
+    //         onClick: () => false
+    //       }
+    //     ]
+    //   });   
+    // }
   }
 
   return( 
@@ -85,7 +117,38 @@ function Modal(){
         </button>
 
         <Container ref={(elm) => overlayRef.current = elm}>
-             <Img style={{maxWidth: `calc((100vh - 20px) * ${dimension.width/dimension.height})`}}>
+            <Options>
+              {img &&
+                <React.Fragment> 
+                  {confirm ?
+                    <ReactConfirmAlert
+                        title='Delete Image?'
+                        message="This image will be permanently deleted."
+                        buttons={[
+                          {
+                            label: 'Yes, Delete it!',
+                            onClick: () => { 
+                              dispatch(removeImage({id: img.id}));
+                              history.replace("/");
+                            }
+                          },
+                          {
+                            label: 'No',
+                            onClick: () => setConfirm(false)
+                          }
+                        ]}
+                    /> :
+                    <React.Fragment>
+                      <a href={genDownloadUrl(img.filename)}>Download Image</a>
+                      <button className="delete-item" onClick={() => setConfirm(true)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                      </button>
+                    </React.Fragment>
+                  }
+                </React.Fragment>
+              }
+             </Options>
+             <Img style={{maxWidth: `calc((100vh - 200px) * ${dimension.width/dimension.height})`}}>
                 {img && 
                   <img className="lazyload" data-sizes="auto" src={genLowUrl(img.filename)} data-src={genUrl(img.filename)} data-srcset={genSrcset(img.filename)} ref={(elm) => imgRef.current = elm} alt=""/>                
                 }

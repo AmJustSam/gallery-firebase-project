@@ -12,9 +12,9 @@ export const Upload = styled.form`
    display: inline-block;
    width: 100%;
    max-width: 500px;
+   height: 166px;
    position: relative;
    margin-top: 50px;
-   overflow: hidden;
    
    input {
      position: absolute;
@@ -23,8 +23,8 @@ export const Upload = styled.form`
    }
     
    input:focus + #uploader {
-      outline: 2px solid orange;
-      box-shadow: 0 0 5px 0 orange;
+      outline: 2px solid orange !important;
+      box-shadow: 0 0 5px 0 orange !important;
    }
 
    .uploader {

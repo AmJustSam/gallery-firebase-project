@@ -1,5 +1,5 @@
 import React, {Suspense} from "react";
-import {Route, Switch, useLocation} from "react-router-dom";
+import {Switch, useLocation} from "react-router-dom";
 import ProtectedRoute from "./utils/PrivateRoute";
 import PublicRoute from "./utils/PublicRoute";
 
@@ -7,8 +7,8 @@ const Home  = React.lazy(() => import("./components/home/home"));
 const Login = React.lazy(() => import("./authentication/login"));
 const Reset = React.lazy(() => import("./authentication/reset"));
 const Signup = React.lazy(() => import( "./authentication/signup"));
+
 import Modal from "./components/modal/modal";
-const ImageView = React.lazy(() => import("./components/imageView/imageView"));
 
 import {useSelector} from "react-redux";
 
@@ -28,11 +28,11 @@ function App() {
             
             <Switch location={background || location}>
               <ProtectedRoute exact path="/" component={Home}/>
-              <Route exact path="/img/:name"  component={ImageView} />
+              <ProtectedRoute exact path="/img/:name"  component={Modal} />
             </Switch>
 
             {background && 
-              <Route exact path="/img/:name"  component={Modal} />
+              <ProtectedRoute exact path="/img/:name"  component={Modal} />
             }
         </Suspense>
      }

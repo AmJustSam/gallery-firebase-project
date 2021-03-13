@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 import styled from "styled-components";
 import {resetPassword} from "../utils/firebase";
 
+import {Helmet} from "react-helmet";
+
 import handleResetErrors from "../utils/handleResetErrors";
 
 const Container = styled.div`
@@ -12,10 +14,11 @@ const Container = styled.div`
    flex-direction: column;
    width: 100%;
    height: 100vh;
+   margin-top: -40px;
 
    div {
     width: 100%;
-    max-width: 350px;  
+    max-width: 350px;
 
     @media screen and (max-width: 370px) {
         max-width: 300px;
@@ -79,19 +82,24 @@ function Reset(){
   }
 
   return(
-    <Container>
-      <div>
-        <h1 className="authPageLogo"><Link to="/">Piczer</Link></h1>     
-        {msg && <p className="auth-msg">{msg}</p>}
-        <h1>Forgot your password?</h1>
-        <p className="less-important">Please type your email below to receive a link to reset your password.</p>
-        <div className="form-separator"></div>
-        <Form onSubmit={handleSubmit}>
-          <input name="email" type="email" placeholder="Type your email" required/>
-          <Button color="white" bg="#7B4162" hv="#552340">Send Password Reset Email</Button>
-        </Form>
-      </div>
-    </Container>
+    <React.Fragment>
+      <Helmet>
+         <title>Reset your Piczer account password</title>
+      </Helmet>
+      <h1 className="authPageLogo"><Link to="/">Piczer</Link></h1>     
+      <Container>
+        <div>
+          {msg && <p className="auth-msg">{msg}</p>}
+          <h1>Forgot your password?</h1>
+          <p className="less-important">Please type your email below to receive a link to reset your password.</p>
+          <div className="form-separator"></div>
+          <Form onSubmit={handleSubmit}>
+            <input name="email" type="email" placeholder="Type your email" required/>
+            <Button color="white" bg="#7B4162" hv="#552340">Send Password Reset Email</Button>
+          </Form>
+        </div>
+      </Container>
+    </React.Fragment>
   )
 }
 

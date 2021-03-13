@@ -128,24 +128,18 @@ label {
 }
 
 .authPageLogo {
-  text-align:  center;
+  text-align:  left;
   color: pink;
-  margin-bottom: 30px;
-  position: absolute;
-  top: 10px;
-  left: 20px;
   font-size: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
 
-  @media screen and (max-width: 600px) {
-    left: 50%;
-    transform: translateX(-50%);
+  @media screen and (max-width: 650px) {
+     text-align: center;
   }
 
-  @media screen and (max-width: 370px) {
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  // @media screen and (max-width: 370px) {
+  // }
 
   a {
     text-decoration: none;
