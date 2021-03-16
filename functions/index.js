@@ -5,7 +5,7 @@ const {Storage} = require("@google-cloud/storage");
 admin.initializeApp();
 
 const storage = new Storage({
-  keyFile: "kindafire-3769272770bd.json"
+  keyFile: "kindafire-b517c0865135.json"
 })
 
 const bucketName = "kindafire.appspot.com";
