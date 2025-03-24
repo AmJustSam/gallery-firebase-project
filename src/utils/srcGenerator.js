@@ -1,7 +1,7 @@
 import ImgixClient from 'imgix-core-js';
 
 const client = new ImgixClient({
-  domain: 'ajs.imgix.net',
+  domain: "ajs.imgix.net",
   secureURLToken: '[your_api_key_here]',
 }); 
 
